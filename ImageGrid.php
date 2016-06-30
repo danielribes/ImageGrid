@@ -61,7 +61,7 @@ class ImageGrid {
 		$images_group = $this->getFileImages($this->input_path);
 
 		$imgRef = $this->input_path.DIRECTORY_SEPARATOR.$images_group[0];
-		$imgCanvas = $this->createCanvasGrid(count($images_group), $cols, $gwidth, $imgRef);
+		$imgCanvas = $this->createBaseCanvasImage(count($images_group), $cols, $gwidth, $imgRef);
 
 		// Process every image to add on canvas
 		$xCanvas = 0;
@@ -106,32 +106,6 @@ class ImageGrid {
 	}
 
 
-	/**
-	 * Create the canvas image grid
-	 * @param  Integer $imageFileCount Total images to process
-	 * @param  Integer $cols           Total cols of grid
-	 * @param  Integer $imgCanvasWidth Width of the image grid
-	 * @param  ImgObj $imgRef         First image oon the images set
-	 * @return ImgObj                 Canvas image grid created
-	 *
-	 */
-	private function createCanvasGrid($imageFileCount, $cols, $imgCanvasWidth, $imgRef)
-	{
-		// Define individual image width
-		$this->imgOnGridWidth = round(($imgCanvasWidth / $cols), 0);
-
-		// Define and create the output canvas image
-		list($imgWidth, $imgHeight) = getimagesize($imgRef);
-		$this->imgOnGridHeight = round( (($imgHeight * $this->imgOnGridWidth) / $imgWidth) , 0);
-		$rows = ceil($imageFileCount/$cols);
-		$imgCanvasHeight = $this->imgOnGridHeight * $rows;
-		$imgCanvas = imagecreatetruecolor($imgCanvasWidth, $imgCanvasHeight);
-
-		$backgroundcolor = imagecolorallocate($imgCanvas, 255, 255, 255);
-		imagefill($imgCanvas, 0, 0, $backgroundcolor);
-
-		return $imgCanvas;
-	}
 
 
 	/**
@@ -151,6 +125,38 @@ class ImageGrid {
 	public function getImgOnGridHeight()
 	{
 		return $this->imgOnGridHeight;
+	}
+
+
+//=============================================================================
+// Private methods
+//=============================================================================
+
+	/**
+	 * Create the base canvas image for the grid
+	 * @param  Integer $imageFileCount Total images to process
+	 * @param  Integer $cols           Total cols of grid
+	 * @param  Integer $imgCanvasWidth Width of the image grid
+	 * @param  ImgObj $imgRef         First image oon the images set
+	 * @return ImgObj                 Canvas image grid created
+	 *
+	 */
+	private function createBaseCanvasImage($imageFileCount, $cols, $imgCanvasWidth, $imgRef)
+	{
+		// Define individual image width
+		$this->imgOnGridWidth = round(($imgCanvasWidth / $cols), 0);
+
+		// Define and create the output canvas image
+		list($imgWidth, $imgHeight) = getimagesize($imgRef);
+		$this->imgOnGridHeight = round( (($imgHeight * $this->imgOnGridWidth) / $imgWidth) , 0);
+		$rows = ceil($imageFileCount/$cols);
+		$imgCanvasHeight = $this->imgOnGridHeight * $rows;
+		$imgCanvas = imagecreatetruecolor($imgCanvasWidth, $imgCanvasHeight);
+
+		$backgroundcolor = imagecolorallocate($imgCanvas, 255, 255, 255);
+		imagefill($imgCanvas, 0, 0, $backgroundcolor);
+
+		return $imgCanvas;
 	}
 
 
