@@ -14,7 +14,7 @@ if ( extension_loaded('gd') )
 {
 	$grid->setInputPath(dirname(__FILE__).DIRECTORY_SEPARATOR.'images2');
 	$grid->setOutputPath(dirname(__FILE__).DIRECTORY_SEPARATOR.'output');
-	if( $grid->basicGrid(6,900, $filename) )
+	if( $grid->basicGrid(3,900, $filename) )
 	{
 		echo "Done!\n";
 		echo $grid->totalimages." images processed.\n";
