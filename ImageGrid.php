@@ -59,7 +59,7 @@ class ImageGrid {
 	{
 		 $images_group = $this->getFileImages($this->input_path);
 		 $finalImage = $this->createImageGrid($cols, $gwidth, $images_group);
-     $ih = imagejpeg($finalImage, $this->output_path.DIRECTORY_SEPARATOR.$gridname.'.jpg', 100);
+     	 $ih = imagejpeg($finalImage, $this->output_path.DIRECTORY_SEPARATOR.$gridname.'.jpg', 100);
 		 if($ih)
 		 {
 	 			return TRUE;
@@ -124,7 +124,7 @@ class ImageGrid {
 	 * Make image grid.
 	 * Create a image file with basic grid of images loads from directory
 	 *
-   * @param  Integer $cols      Number of grid columns
+     * @param  Integer $cols      Number of grid columns
 	 * @param  Integer $gwidth    Grid image width in pixels
 	 * @param  Array $images_group The source image files
 	 * @return ImgObj $imgCanvas   The Image Canvas grid
@@ -148,10 +148,15 @@ class ImageGrid {
 			$imgOnGridHeight = round( (($imgHeight * $this->getImgOnGridWidth()) / $imgWidth) , 0);
 
 			$img = imagecreatefromjpeg($imgFile);
-			imagecopyresampled($imgCanvas, $img, $xCanvas, $yCanvas, 0, 0, $this->getImgOnGridWidth(),
-																																	 $imgOnGridHeight,
-																																	 $imgWidth,
-																																	 $imgHeight);
+			imagecopyresampled($imgCanvas, 
+				               $img, 
+				               $xCanvas, 
+				               $yCanvas, 0, 0, 
+				               $this->getImgOnGridWidth(),
+							   $imgOnGridHeight,
+							   $imgWidth,
+							   $imgHeight);
+
 			$this->totalimages++;
 
 			if( $aCol < $cols )
