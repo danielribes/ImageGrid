@@ -13,16 +13,16 @@ class ImageGrid
 
     private $imgOnGridWidth;
     private $imgOnGridHeight;
-    public $input_path;
-    public $output_path;
+    public $inputPath;
+    public $outputPath;
     public $totalimages; // count images processed
 
 
     public function __construct()
     {
         // Set defaults
-        $this->input_path = dirname(__FILE__).DIRECTORY_SEPARATOR.'images';
-        $this->output_path = dirname(__FILE__).DIRECTORY_SEPARATOR.'output';
+        $this->inputPath = dirname(__FILE__).DIRECTORY_SEPARATOR.'images';
+        $this->outputPath = dirname(__FILE__).DIRECTORY_SEPARATOR.'output';
         $this->totalimages = 0;
     }
 
@@ -31,9 +31,9 @@ class ImageGrid
      * Set the images source path
      * @param String $ipath Images source path
      */
-    public function setInputPath($thepath)
+    public function setInputPath($thePath)
     {
-        $this->input_path = $thepath;
+        $this->inputPath = $thePath;
     }
 
 
@@ -41,9 +41,9 @@ class ImageGrid
      * Set the images output path
      * @param String $ipath Images output path
      */
-    public function setOutputPath($thepath)
+    public function setOutputPath($thePath)
     {
-        $this->output_path = $thepath;
+        $this->outputPath = $thePath;
     }
 
 
@@ -54,13 +54,13 @@ class ImageGrid
      * @param  Integer $cols      Number of grid columns
      * @param  Integer $gwidth    Grid image width in pixels
      * @param  String $gridname   Name of final grid image file
-     * @return [type]             TRUE on succes otherwise FALSE
+     * @return Bool             TRUE on succes otherwise FALSE
      */
     public function basicGrid($cols, $gwidth, $gridname)
     {
-        $images_group = $this->getFileImages($this->input_path);
+        $images_group = $this->getFileImages($this->inputPath);
         $finalImage = $this->createImageGrid($cols, $gwidth, $images_group);
-        $ih = imagejpeg($finalImage, $this->output_path.DIRECTORY_SEPARATOR.$gridname.'.jpg', 100);
+        $ih = imagejpeg($finalImage, $this->outputPath.DIRECTORY_SEPARATOR.$gridname.'.jpg', 100);
         if ($ih) {
             return true;
         } else {
@@ -98,7 +98,7 @@ class ImageGrid
      * @param  Integer $imageFileCount Total images to process
      * @param  Integer $cols           Total cols of grid
      * @param  Integer $imgCanvasWidth Width of the image grid
-     * @param  ImgObj $imgRef         First image oon the images set
+     * @param  ImgObj $imgRef         First image of the images list
      * @return ImgObj                 Canvas image grid created
      *
      */
@@ -131,7 +131,7 @@ class ImageGrid
      */
     public function createImageGrid($cols, $gwidth, $images_group)
     {
-        $imgRef = $this->input_path.DIRECTORY_SEPARATOR.$images_group[0];
+        $imgRef = $this->inputPath.DIRECTORY_SEPARATOR.$images_group[0];
         $imgCanvas = $this->createBaseCanvasImage(count($images_group), $cols, $gwidth, $imgRef);
 
         // Process every image to add on canvas
@@ -142,7 +142,7 @@ class ImageGrid
         $aRow = 1;
 
         foreach ($images_group as $oneImage) {
-            $imgFile = $this->input_path.DIRECTORY_SEPARATOR.$oneImage;
+            $imgFile = $this->inputPath.DIRECTORY_SEPARATOR.$oneImage;
             list($imgWidth, $imgHeight) = getimagesize($imgFile);
             $imgOnGridHeight = round((($imgHeight * $this->getImgOnGridWidth()) / $imgWidth), 0);
 
@@ -176,8 +176,6 @@ class ImageGrid
      *  Get files from directory. Remove ., .. and .DS_Store
      *  @param String $path Path of files
      *  @return Array Image files
-     *
-     *
      */
     private function getFileImages($path)
     {
