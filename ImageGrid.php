@@ -13,6 +13,7 @@ class ImageGrid
 
     private $imgOnGridWidth;
     private $imgOnGridHeight;
+    private $gridImageOutput;
     public $inputPath;
     public $outputPath;
     public $totalimages; // count images processed
@@ -53,19 +54,21 @@ class ImageGrid
      *
      * @param  Integer $cols      Number of grid columns
      * @param  Integer $gwidth    Grid image width in pixels
-     * @param  String $gridname   Name of final grid image file
      * @return Bool             TRUE on succes otherwise FALSE
      */
-    public function basicGrid($cols, $gwidth, $gridname)
+    public function basicGrid($cols, $gwidth)
     {
         $images_group = $this->getFileImages($this->inputPath);
-        $finalImage = $this->createImageGrid($cols, $gwidth, $images_group);
+        $this->gridImageOutput = $this->createImageGrid($cols, $gwidth, $images_group);
+    
+        /*
         $ih = imagejpeg($finalImage, $this->outputPath.DIRECTORY_SEPARATOR.$gridname.'.jpg', 100);
         if ($ih) {
             return true;
         } else {
             return false;
         }
+        */
     }
 
 
@@ -87,6 +90,25 @@ class ImageGrid
     {
         return $this->imgOnGridHeight;
     }
+
+
+
+    /**
+     * Save Grdi as JPEG image
+     * @param  String $filename Filename (without path)
+     * @param  Integer $quality  values in range 0-100
+     * @return Bool True/False if save ok or not
+     */
+    public function saveAsJPEG($filename, $quality)
+    {
+        $ih = imagejpeg($this->gridImageOutput, $this->outputPath.DIRECTORY_SEPARATOR.$filename.'.jpg', $quality);
+        if ($ih) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 
 //=============================================================================
