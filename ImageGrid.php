@@ -10,13 +10,23 @@
 
 class ImageGrid
 {
-
+    // Width of final image grid
     private $imgOnGridWidth;
+    
+    // Height of final image grid
     private $imgOnGridHeight;
+    
+    // Image resource of final image grid
     private $gridImageOutput;
+    
+    // Path to source images files
     public $inputPath;
+
+    // Path to output directory
     public $outputPath;
-    public $totalimages; // count images processed
+
+    // Count images processed
+    public $totalimages;
 
 
     public function __construct()
@@ -60,15 +70,6 @@ class ImageGrid
     {
         $images_group = $this->getFileImages($this->inputPath);
         $this->gridImageOutput = $this->createImageGrid($cols, $gwidth, $images_group);
-    
-        /*
-        $ih = imagejpeg($finalImage, $this->outputPath.DIRECTORY_SEPARATOR.$gridname.'.jpg', 100);
-        if ($ih) {
-            return true;
-        } else {
-            return false;
-        }
-        */
     }
 
 
